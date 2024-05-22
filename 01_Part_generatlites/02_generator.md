@@ -46,6 +46,13 @@ Il calcule les valeurs qu'au fur et à mesure de leur demande.
 
 Cela améliore les performances et permet de travailler **avec des ensembles de données potentiellement infinis**.
 
+1. Créez un générateur permettant d'afficher une liste de valeurs décalées.
+
+```python
+1 3 5 7 ...
+1 5 9 ...
+```
+
 1. Compréhensions de Générateurs
    
 Les compréhensions de générateurs sont une syntaxe concise pour créer des générateurs.
