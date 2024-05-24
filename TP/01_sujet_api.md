@@ -20,6 +20,29 @@ Utilisez API platform
 
 Utilisez le fichier qui se trouve dans le dossier Data : [factures](./Data/factures.json)
 
+Modèle des données
+
+```mermaid
+classDiagram
+    class Facture {
+        - numero: String
+        - client: String
+        - montantHT: String
+        - nbHeures: String
+        - dateDebut: String
+        - dateFin: String
+        - formateur: String
+        - payerA: String
+    }
+```
+
+Dans ce diagramme :
+
+- `Facture` représente l'entité principale.
+- Les attributs `- numero`, `- client`, `- montantHT`, `- nbHeures`, `- dateDebut`, `- dateFin`, `- formateur` et `- payerA` correspondent aux champs de la facture tels que spécifiés dans les données JSON.
+- Les types de données sont tous des chaînes de caractères (`String`), car les valeurs dans les données JSON sont des chaînes de caractères.
+- Les attributs sont définis comme privés (indiqués par le préfixe `-`) pour suivre une bonne pratique de l'encapsulation. Cela signifie qu'ils ne sont pas directement accessibles depuis l'extérieur de l'entité mais sont accessibles via des méthodes publiques si nécessaire.
+
 1. Implémentation des endpoints
 
 Implémentez les endpoints suivants pour récupérer les factures :
