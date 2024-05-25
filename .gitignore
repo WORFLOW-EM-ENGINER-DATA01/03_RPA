@@ -1,0 +1,5 @@
+node_modules/
+data/
+.ipynb_checkpoints/
+TP/app-fastapi-rpa/src/data/global/
+.DS_Store

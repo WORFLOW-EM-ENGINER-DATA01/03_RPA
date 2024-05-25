@@ -14,6 +14,5 @@ jupyter server list
 # récupération du token et définition du mot de passe
 
 docker run -p 1080:1080 -p 1025:1025 maildev/maildev
-
+psql -h localhost -U admin -d db
 ``` 
-

@@ -18,22 +18,31 @@ Utilisez API platform
 
 1. Modèle de données
 
-Utilisez le fichier qui se trouve dans le dossier Data : [factures](./Data/factures.json)
+Utilisez le fichier qui se trouve dans le dossier Data : [factures](./app-fastapi-rpa/db/invoices.json)
 
-Modèle des données
+Modèle des données en SQL
 
 ```mermaid
 classDiagram
-    class Facture {
-        - numero: String
-        - client: String
-        - montantHT: String
-        - nbHeures: String
-        - dateDebut: String
-        - dateFin: String
-        - formateur: String
-        - payerA: String
+    class Invoice {
+        +int id
+        +String invoice_number
+        +String client
+        +decimal amount_ht
+        +int hours_count
+        +int days_count
+        +String trainer
+        +String payment_due
     }
+
+    class InterventionDates {
+        +int id
+        +int invoice_id
+        +Date start_date
+        +Date end_date
+    }
+
+    Invoice "1" --> "0..*" InterventionDates : hasInterventions
 ```
 
 Dans ce diagramme :
@@ -47,14 +56,14 @@ Dans ce diagramme :
 
 Implémentez les endpoints suivants pour récupérer les factures :
 
-   1. `GET /factures` : Récupère toutes les factures.
-   2. `GET /factures/annee/<annee>` : Récupère les factures pour une année spécifiée.
-   3. `GET /factures/date/<date>` : Récupère les factures pour une date spécifiée.
-   4. `GET /factures/formateur/<nom_formateur>` : Récupère les factures pour un formateur spécifié.
-   5. `GET /factures/ecole/<nom_ecole>` : Récupère les factures pour une école spécifiée.
-   6. `GET /factures/date/<date>/formateur/<nom_formateur>` : Récupère les factures pour une date et un formateur spécifiés.
-   7. `GET /factures/date/<date>/ecole/<nom_ecole>` : Récupère les factures pour une date et une école spécifiées.
-   8. `GET /factures/date/<date>/formateur/<nom_formateur>/ecole/<nom_ecole>` : Récupère les factures pour une date, un formateur et une école spécifiés.
+   1. `GET /invoices` : Récupère toutes les invoices.
+   2. `GET /invoices/year/<annee>` : Récupère les factures pour une année spécifiée.
+   3. `GET /invoices/date/<date>` : Récupère les factures pour une date spécifiée.
+   4. `GET /invoices/trainer/<nom_formateur>` : Récupère les factures pour un formateur spécifié.
+   5. `GET /invoices/school/<nom_ecole>` : Récupère les factures pour une école spécifiée.
+   6. `GET /invoices/date/<date>/trainer/<name_trainer>` : Récupère les factures pour une date et un formateur spécifiés.
+   7. `GET /factures/date/<date>/school/<name_school>` : Récupère les factures pour une date et une école spécifiées.
+   8. `GET /factures/date/<date>/trainer/<name_trainer>/school/<name_school>` : Récupère les factures pour une date, un formateur et une école spécifiés.
 
 
 1. Documentation
