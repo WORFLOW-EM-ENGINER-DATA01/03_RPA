@@ -8,6 +8,7 @@ CREATE TABLE invoices (
     hours_count INTEGER NOT NULL,
     days_count INTEGER NOT NULL,
     trainer VARCHAR(100) NOT NULL,
+    trainer_shorcode VARCHAR(50) NOT NULL,
     payment_due VARCHAR(50) NOT NULL
 );
 

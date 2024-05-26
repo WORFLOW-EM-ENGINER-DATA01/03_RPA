@@ -22,35 +22,73 @@ Utilisez le fichier qui se trouve dans le dossier Data : [factures](./app-fastap
 
 Modèle des données en SQL
 
-```mermaid
-classDiagram
-    class Invoice {
-        +int id
-        +String invoice_number
-        +String client
-        +decimal amount_ht
-        +int hours_count
-        +int days_count
-        +String trainer
-        +String payment_due
-    }
+```txt
+┌───────────────────────┐
+│       Trainer         │
+├───────────────────────┤
+│ id (PK)               │
+│ name (unique)         │
+│ shortcode (unique)    │
+│ training_level        │
+└───────────────────────┘
+           │
+           │ 1
+           │
+           │ n
+           ▼
+┌───────────────────────┐
+│       Invoice         │
+├───────────────────────┤
+│ id (PK)               │
+│ invoice_number        │
+│ client                │
+│ amount_ht             │
+│ hours_count           │
+│ days_count            │
+│ trainer_id (FK)       │
+│ payment_due           │
+└───────────────────────┘
+           │
+           │ 1
+           │
+           │ n
+           ▼
+┌───────────────────────┐
+│  InterventionDate     │
+├───────────────────────┤
+│ id (PK)               │
+│ invoice_id (FK)       │
+│ start_date            │
+│ end_date              │
+└───────────────────────┘
 
-    class InterventionDates {
-        +int id
-        +int invoice_id
-        +Date start_date
-        +Date end_date
-    }
-
-    Invoice "1" --> "0..*" InterventionDates : hasInterventions
 ```
 
-Dans ce diagramme :
+### Table `Trainer` :
 
-- `Facture` représente l'entité principale.
-- Les attributs `- numero`, `- client`, `- montantHT`, `- nbHeures`, `- dateDebut`, `- dateFin`, `- formateur` et `- payerA` correspondent aux champs de la facture tels que spécifiés dans les données JSON.
-- Les types de données sont tous des chaînes de caractères (`String`), car les valeurs dans les données JSON sont des chaînes de caractères.
-- Les attributs sont définis comme privés (indiqués par le préfixe `-`) pour suivre une bonne pratique de l'encapsulation. Cela signifie qu'ils ne sont pas directement accessibles depuis l'extérieur de l'entité mais sont accessibles via des méthodes publiques si nécessaire.
+- `id`: Identifiant unique du formateur (clé primaire).
+- `name`: Nom du formateur.
+- `shortcode`: Code court unique associé au formateur.
+- `training_level`: Niveau de formation du formateur.
+
+### Table `Invoice` :
+
+- `id`: Identifiant unique de la facture (clé primaire).
+- `invoice_number`: Numéro unique de la facture.
+- `client`: Nom du client associé à la facture.
+- `amount_ht`: Montant hors taxes de la facture.
+- `hours_count`: Nombre d'heures facturées.
+- `days_count`: Nombre de jours facturés.
+- `trainer_id`: Identifiant du formateur associé à la facture (clé étrangère vers la table `TRAINER`).
+- `payment_due`: Délai de paiement de la facture.
+
+### Table `InterventionDate` :
+
+- `id`: Identifiant unique de la date d'intervention (clé primaire).
+- `invoice_id`: Identifiant de la facture associée à la date d'intervention (clé étrangère vers la table `INVOICE`).
+- `start_date`: Date de début de l'intervention.
+- `end_date`: Date de fin de l'intervention.
+
 
 1. Implémentation des endpoints
 
@@ -60,10 +98,11 @@ Implémentez les endpoints suivants pour récupérer les factures :
    2. `GET /invoices/year/<annee>` : Récupère les factures pour une année spécifiée.
    3. `GET /invoices/date/<date>` : Récupère les factures pour une date spécifiée.
    4. `GET /invoices/trainer/<nom_formateur>` : Récupère les factures pour un formateur spécifié.
-   5. `GET /invoices/school/<nom_ecole>` : Récupère les factures pour une école spécifiée.
-   6. `GET /invoices/date/<date>/trainer/<name_trainer>` : Récupère les factures pour une date et un formateur spécifiés.
-   7. `GET /factures/date/<date>/school/<name_school>` : Récupère les factures pour une date et une école spécifiées.
-   8. `GET /factures/date/<date>/trainer/<name_trainer>/school/<name_school>` : Récupère les factures pour une date, un formateur et une école spécifiés.
+   5. `GET /invoices/bytrainer/<nom_formateur>` : Récupère les factures pour partitionner par formateur.
+   6. `GET /invoices/school/<nom_ecole>` : Récupère les factures pour une école spécifiée.
+   7. `GET /invoices/date/<date>/trainer/<name_trainer>` : Récupère les factures pour une date et un formateur spécifiés.
+   8. `GET /factures/date/<date>/school/<name_school>` : Récupère les factures pour une date et une école spécifiées.
+   9. `GET /factures/date/<date>/trainer/<name_trainer>/school/<name_school>` : Récupère les factures pour une date, un formateur et une école spécifiés.
 
 
 1. Documentation
