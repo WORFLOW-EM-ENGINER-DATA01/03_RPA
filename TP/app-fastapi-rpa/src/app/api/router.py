@@ -1,8 +1,9 @@
 from fastapi import APIRouter, FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from .database import SessionLocal, engine 
-from .schemas import Invoice, InterventionDate
+from .schemas import Invoice
 from . import models, crud
+from typing import Union, Dict
 
 app = FastAPI()
 router = APIRouter(prefix='/api')
@@ -26,10 +27,11 @@ def get_all( db: Session = Depends(get_db)):
     if not invoices:
         raise HTTPException(status_code=404, detail="Aucune facture trouvée")
     return invoices
-    
-@router.get("/intervention_dates", response_model=list[InterventionDate])
-def get_all( db: Session = Depends(get_db)):
-    invoices = crud.get_all_intervention_dates(db)
+
+# /api/invoices/date/2024-05-26/2024-02-15
+@router.get("/invoices/date/{start}", response_model=list[Invoice])
+def all_intervention_by_start_date( start : str, db: Session = Depends(get_db)):
+    invoices = crud.get_all_intervention_by_start_date(start = start, db = db)
     
     return invoices
 

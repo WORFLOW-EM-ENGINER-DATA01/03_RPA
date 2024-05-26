@@ -15,4 +15,6 @@ jupyter server list
 
 docker run -p 1080:1080 -p 1025:1025 maildev/maildev
 psql -h localhost -U admin -d db
+
+docker exec -it docker_postgres psql -U admin 
 ``` 

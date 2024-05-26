@@ -8,54 +8,75 @@ CREATE TABLE invoices (
     hours_count INTEGER NOT NULL,
     days_count INTEGER NOT NULL,
     trainer VARCHAR(100) NOT NULL,
-    trainer_shorcode VARCHAR(50) NOT NULL,
-    payment_due VARCHAR(50) NOT NULL
-);
+    trainer_shortcode VARCHAR(50) NOT NULL,
+    payment_due VARCHAR(50) NOT NULL,
+    intervention_dates JSONB
+) ;
 
-CREATE TABLE intervention_dates (
+-- Création des écoles
+CREATE TABLE schools (
     id SERIAL PRIMARY KEY,
-    invoice_id INTEGER REFERENCES invoices(id) ON DELETE CASCADE,
-    start_date DATE NOT NULL,
-    end_date DATE NOT NULL
+    name VARCHAR(100) NOT NULL
 );
 
-DO $$
-DECLARE
-    json_data JSON;
-BEGIN
-    json_data := pg_read_file('invoices.json');
-    
-    -- Insérer les données JSON dans la table invoices
-    INSERT INTO invoices (invoice_number, client, amount_ht, hours_count, days_count, trainer, payment_due)
-    SELECT
-        (item->>'Facture n°')::VARCHAR,
-        (item->>'Client')::VARCHAR,
-        (regexp_replace(item->>'Montant HT', ' euro', '', 'g'))::DECIMAL,
-        (item->>'Nombres d''heures')::INTEGER,
-        (item->>'Nombre de jours')::INTEGER,
-        (item->>'Formateur')::VARCHAR,
-        (item->>'Payer à')::VARCHAR
-    FROM
-        json_array_elements(json_data) AS item;
-END $$;
+INSERT INTO schools (name) VALUES 
+('Computer School'),
+('ESIT'),
+('EIT'),
+('The Bridge');
 
--- Lire les données JSON depuis le fichier et les insérer dans la table intervention_dates
-DO $$
-DECLARE
-    json_data JSON;
-BEGIN
-    -- Lire le fichier JSON et le stocker dans la variable json_data
-    json_data := pg_read_file('invoices.json');
-    
-    -- Insérer les données JSON dans la table intervention_dates
-    INSERT INTO intervention_dates (invoice_id, start_date, end_date)
-    SELECT
-        invoices.id,
-        (item->'Dates d''interventions'->>'Date début')::DATE,
-        (item->'Dates d''interventions'->>'Date fin')::DATE
-    FROM
-        invoices,
-        json_array_elements(json_data) AS item
-    WHERE
-        invoices.invoice_number = (item->>'Facture n°')::VARCHAR;
-END $$;
+-- Création des formateurs
+CREATE TABLE trainers (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    shortcode VARCHAR(50) NOT NULL
+);
+
+INSERT INTO trainers (name, shortcode) VALUES 
+('Lucie Bouvier', 'LB01'),
+('Margot Caron', 'MC01'),
+('Théophile Sauvage', 'TS01'),
+('Susan Fernandes', 'SF01'),
+('Danielle Chevallier', 'DC01'),
+('Martine Roger', 'MR01'),
+('Clémence Auger', 'CA01'),
+('Franck Riou', 'FR01'),
+('Joséphine Joseph', 'JJ01'),
+('Claude Garcia', 'CG01');
+
+-- Génération des factures
+INSERT INTO invoices (
+    invoice_number, client, amount_ht, hours_count, days_count, 
+    trainer, trainer_shortcode, payment_due, intervention_dates
+)
+SELECT 
+    '0000' || i AS invoice_number,
+    CASE 
+        WHEN i % 4 = 0 THEN 'Computer School'
+        WHEN i % 4 = 1 THEN 'ESIT'
+        WHEN i % 4 = 2 THEN 'EIT'
+        WHEN i % 4 = 3 THEN 'The Bridge'
+    END AS client,
+    ROUND((RANDOM() * 2000 + 500)::numeric, 2) AS amount_ht,  -- Corrected rounding syntax
+    ROUND(RANDOM() * 80 + 10)::integer AS hours_count,  -- Ensure integer type
+    ROUND(5)::integer AS days_count,  -- Ensure integer type
+    (
+        SELECT name FROM trainers ORDER BY RANDOM() LIMIT 1
+    ) AS trainer,
+    (
+        SELECT shortcode FROM trainers ORDER BY RANDOM() LIMIT 1
+    ) AS trainer_shortcode,
+    'Payment due: ' || (ROUND(RANDOM() * 60 + 15))::integer || ' days' AS payment_due,  -- Ensure integer type
+       jsonb_build_object(
+        'start_date', to_char(
+            DATE '2023-01-01' + ((i - 1) / 10 * INTERVAL '1 MONTH') + ((i - 1) % 10 * 3 || ' days')::INTERVAL, 
+            'YYYY-MM-DD'
+        ),
+        'end_date', to_char(
+            DATE '2023-01-01' + ((i - 1) / 10 * INTERVAL '1 MONTH') + ((i - 1) % 10 * 3 || ' days')::INTERVAL + INTERVAL '5 days', 
+            'YYYY-MM-DD'
+        )
+    ) AS intervention_dates
+FROM generate_series(1, 120) AS s(i);
+
+

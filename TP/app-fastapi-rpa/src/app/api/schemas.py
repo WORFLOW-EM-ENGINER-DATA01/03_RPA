@@ -1,20 +1,6 @@
 from pydantic import BaseModel
-from datetime import date
-from typing import List
-
-class InterventionDateBase(BaseModel):
-    start_date: date
-    end_date: date
-
-class InterventionDateCreate(InterventionDateBase):
-    pass
-
-class InterventionDate(InterventionDateBase):
-    id: int
-    invoice_id: int
-
-    class Config:
-        orm_mode = True
+from typing import Dict, Union
+from datetime import datetime
 
 class InvoiceBase(BaseModel):
     invoice_number: str
@@ -23,14 +9,15 @@ class InvoiceBase(BaseModel):
     hours_count: int
     days_count: int
     trainer: str
+    trainer_shortcode: str
     payment_due: str
+    intervention_dates : Dict[str, Union[str, datetime]]
 
 class InvoiceCreate(InvoiceBase):
     pass
 
 class Invoice(InvoiceBase):
     id: int
-    intervention_dates: List[InterventionDate] = []
 
     class Config:
         orm_mode = True
