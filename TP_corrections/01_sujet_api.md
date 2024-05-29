@@ -143,8 +143,8 @@ Implémentez les endpoints suivants pour récupérer les factures :
 1. `GET /api/invoices` : Récupère toutes les factures.
 2. `GET /api/invoices/year/<annee>` : Récupère les factures pour une année spécifiée.
 3. `GET /api/invoices/date/<date>` : Récupère les factures pour une date spécifiée.
-4. `GET /api/invoices/trainer/<nom_formateur>` : Récupère les factures pour un formateur spécifié.
-5. `GET /api/invoices/bytrainer/<nom_formateur>` : Récupère les factures pour partitionner par formateur.
+4. `GET /api/trainers` : Récupère tous les noms des formateurs.
+5. `GET /api/invoices/trainer/<nom_formateur>` : Récupère les factures parformateur spécifié.
 6. `GET /api/invoices/school/<nom_ecole>` : Récupère les factures pour une école spécifiée.
 7. `GET /api/invoices/date/<date>/trainer/<name_trainer>` : Récupère les factures pour une date et un formateur spécifiés.
 8. `GET /factures/date/<date>/school/<name_school>` : Récupère les factures pour une date et une école spécifiées.

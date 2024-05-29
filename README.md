@@ -24,5 +24,5 @@ docker exec -it docker_postgres psql -U admin
 ```sql
 SELECT *
 FROM invoices
-WHERE intervention_dates->>'start_date' = :start_date
+WHERE intervention_dates->>'start_date' > '2024-01-01'
 ```
