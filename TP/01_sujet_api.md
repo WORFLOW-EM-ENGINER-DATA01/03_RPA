@@ -11,11 +11,11 @@ Dans ce TP, vous allez mettre en œuvre une API de gestion des factures pour une
 - Mettre en place une API RESTful pour la gestion des factures.
 - Implémenter différentes fonctionnalités pour récupérer des factures en fonction de différents critères tels que l'année, la date, le nom du formateur, le nom de l'école, etc.
 - Tester l'API à l'aide d'outils tels que Postman ou curl.
-- Créer une interface graphique avec React permettant de calculer des points importants pour le bilan pédagogique.
+- Créer une interface graphique avec React permettant de calculer des points importants pour le bilan pédagogique, voir dans la partie UI du document, ci-après.
 
 ## Mise en place de l'environnement
 
-Utilisez API Platform.
+Utilisez FastAPI.
 
 ## Structure du projet API 
 
