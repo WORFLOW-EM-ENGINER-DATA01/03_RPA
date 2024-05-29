@@ -18,3 +18,11 @@ psql -h localhost -U admin -d db
 
 docker exec -it docker_postgres psql -U admin 
 ``` 
+
+# Syntaxe pour faire une requête SQL avec un champ JSON en Postgres
+
+```sql
+SELECT *
+FROM invoices
+WHERE intervention_dates->>'start_date' = :start_date
+```
