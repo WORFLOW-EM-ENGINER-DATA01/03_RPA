@@ -4,4 +4,4 @@ from datetime import datetime
 from . import models
 
 def get_all_invoices(db: Session):
-    return "DB - Session"
+    return db.query(models.Invoice).all()
