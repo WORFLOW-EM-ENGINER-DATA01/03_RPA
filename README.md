@@ -17,6 +17,9 @@ docker run -p 1080:1080 -p 1025:1025 maildev/maildev
 psql -h localhost -U admin -d db
 
 docker exec -it docker_postgres psql -U admin 
+
+docker build -t ui-app .
+docker run -it --rm --name env-ui-app -p 5173:5173 -v "${PWD}":/app
 ``` 
 
 # Syntaxe pour faire une requête SQL avec un champ JSON en Postgres
