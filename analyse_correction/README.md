@@ -2,6 +2,9 @@
 
 ```bash
 docker exec -it python_app_container bash
+# postgres
 
-tap-github --config config.json | target-csv --config target-config.json
+pip install mypy
+
+mypy script.py
 ```

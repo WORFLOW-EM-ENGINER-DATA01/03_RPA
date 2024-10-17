@@ -15,7 +15,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Installer les Taps et Targets pour Singer (exemple)
-RUN pip install target-postgres target-csv
+# RUN pip install target-postgres target-csv
 
 # Définir le répertoire de travail
 WORKDIR /usr/src/app
