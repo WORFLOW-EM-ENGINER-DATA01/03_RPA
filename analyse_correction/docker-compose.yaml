@@ -5,7 +5,6 @@ services:
     volumes:
       - ./Data:/usr/src/app/Data   # Monter le dossier Data
       - .:/usr/src/app             # Monter tout le projet pour qu'il soit accessible
-    working_dir: /usr/src/app
     stdin_open: true  # Permet d'utiliser le terminal si nécessaire
     tty: true         # Active l'interface interactive
 
