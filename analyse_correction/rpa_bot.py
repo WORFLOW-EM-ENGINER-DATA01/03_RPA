@@ -4,10 +4,6 @@ import numpy as np
 
 data = pd.read_csv('./Data/analyse.csv')
 
-# print(data.head(10))
-# print(data.tail(10))
-# print( data.describe())
-
 # Retirez du dataset les valeurs dont le prix est nul
 # Retirez du dataset les valeurs dont le prix est nul
 
@@ -26,3 +22,15 @@ data['price'] = abs(data['price'] )
 
 # on place 500 comment faire le meilleur investissement avec ces actions ?
 amount = 500
+
+# print(data.head(10))
+# print(data.tail(10))
+# print( data.describe())
+
+# taux de profit 
+
+data['rate'] = np.round(data['profit']/data['price'], 2)
+
+data.sort_values(by=['price', 'profit'])
+
+print( data.head() )

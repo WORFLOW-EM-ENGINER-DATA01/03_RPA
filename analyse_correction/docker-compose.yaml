@@ -1,10 +1,28 @@
+version: '3.8'
+
 services:
+  # Service pour l'application Python
   python-app:
     build: .
     container_name: python_app_container
     volumes:
       - ./Data:/usr/src/app/Data   # Monter le dossier Data
-      - .:/usr/src/app             # Monter tout le projet pour qu'il soit accessible
+      - .:/usr/src/app              # Monter tout le projet pour qu'il soit accessible
     stdin_open: true  # Permet d'utiliser le terminal si nécessaire
     tty: true         # Active l'interface interactive
 
+  # Service pour PostgreSQL (base de données)
+  db:
+    image: postgres:latest
+    container_name: talend_db
+    environment:
+      - POSTGRES_DB=talend
+      - POSTGRES_USER=talend
+      - POSTGRES_PASSWORD=talendpassword
+    ports:
+      - "5432:5432"  # Port PostgreSQL
+    volumes:
+      - db_data:/var/lib/postgresql/data  # Persistance des données
+
+volumes:
+  db_data:
