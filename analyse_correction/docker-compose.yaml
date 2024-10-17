@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # Service pour l'application Python
   python-app:
@@ -10,19 +8,37 @@ services:
       - .:/usr/src/app              # Monter tout le projet pour qu'il soit accessible
     stdin_open: true  # Permet d'utiliser le terminal si nécessaire
     tty: true         # Active l'interface interactive
-
-  # Service pour PostgreSQL (base de données)
-  db:
-    image: postgres:latest
-    container_name: talend_db
     environment:
-      - POSTGRES_DB=talend
-      - POSTGRES_USER=talend
-      - POSTGRES_PASSWORD=talendpassword
-    ports:
-      - "5432:5432"  # Port PostgreSQL
+      - SINGER_DATABASE_URI=postgresql://rpa:password@db:5432/rpa
+    depends_on:
+      - db
+    networks:
+      - app-network-rpa
+  db:
+    image: postgres:13-alpine
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: rpa
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: rpa
     volumes:
-      - db_data:/var/lib/postgresql/data  # Persistance des données
+      - ./db_data:/var/lib/postgresql/data
+    networks:
+      - app-network-rpa
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8083:8080
+    depends_on:
+      - db
+    networks:
+      - app-network-rpa
 
 volumes:
   db_data:
+
+networks:
+  app-network-rpa:
+    driver: bridge

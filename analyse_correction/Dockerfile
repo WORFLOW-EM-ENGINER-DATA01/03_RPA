@@ -14,6 +14,9 @@ COPY requirements.txt .
 # Installer les packages Python à partir du fichier requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Installer les Taps et Targets pour Singer (exemple)
+RUN pip install target-postgres target-csv
+
 # Définir le répertoire de travail
 WORKDIR /usr/src/app
 

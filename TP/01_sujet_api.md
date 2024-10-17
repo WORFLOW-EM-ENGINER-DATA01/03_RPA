@@ -34,7 +34,7 @@ Utilisez FastAPI.
 
 ## Modèle de données
 
-Utilisez le fichier qui se trouve dans le dossier Data : [factures](./app-fastapi-rpa/db/invoices.json)
+Les données sont déjà créées en montant les images.
 
 ### Table `Invoice` :
 

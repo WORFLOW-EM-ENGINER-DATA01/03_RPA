@@ -60,12 +60,12 @@ SELECT
     ROUND((RANDOM() * 2000 + 500)::numeric, 2) AS amount_ht,  -- Corrected rounding syntax
     ROUND(RANDOM() * 80 + 10)::integer AS hours_count,  -- Ensure integer type
     ROUND(5)::integer AS days_count,  -- Ensure integer type
-    (
-        SELECT name FROM trainers ORDER BY RANDOM() LIMIT 1
-    ) AS trainer,
-    (
-        SELECT shortcode FROM trainers ORDER BY RANDOM() LIMIT 1
-    ) AS trainer_shortcode,
+        (
+            SELECT name FROM trainers ORDER BY RANDOM() LIMIT 1
+        ) AS trainer,
+        (
+            SELECT shortcode FROM trainers ORDER BY RANDOM() LIMIT 1
+        ) AS trainer_shortcode,
     'Payment due: ' || (ROUND(RANDOM() * 60 + 15))::integer || ' days' AS payment_due,  -- Ensure integer type
        jsonb_build_object(
         'start_date', to_char(
