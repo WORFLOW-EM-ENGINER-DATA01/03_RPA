@@ -8,6 +8,9 @@ Il faut générer le meilleur bénéfice pour un investissement donné.
 
 Utilisez la méthode greedy, ou approche gloutonne, c'est une stratégie algorithmique utilisée pour résoudre des problèmes d'optimisation. 
 
+1. Nettoyez les données et les normalisez, pensez à caster les valeurs si nécessaire.
+2. Fixez un montant d'investissement et trouvez le meilleur placement.
+
 ### Prérequis
 
 Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
