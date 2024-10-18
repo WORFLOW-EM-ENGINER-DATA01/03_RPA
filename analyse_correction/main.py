@@ -1,16 +1,16 @@
 import pandas as pd 
-from jobs.job_csv import cleanData, optimize
+from infrastructures.sanitize import cleanData
 from jobs.job_postgres import Hydrate
+from jobs.job_csv import optimize
+from config import fileName, amount
 
-file_path = './Data/analyse.csv'  # Chemin vers le fichier CSV
-investments = pd.read_csv(file_path)
+# job 1 - sanatize
+investments = pd.read_csv(fileName)
 investments = cleanData(investments)
 
-# job 1 
-investments = optimize(investments, amount = 1500)
+# job 2 - optimize
+investments = optimize(investments, amount)
 
-# job 2
+# job 3 - hydrate database
 hy = Hydrate(investments)
-
-print(investments)
 hy.execute()

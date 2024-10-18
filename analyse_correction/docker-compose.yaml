@@ -20,8 +20,7 @@ services:
     container_name: postgres_db
     environment:
       POSTGRES_USER: rpa
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: rpa
+      POSTGRES_PASSWORD: password 
     volumes:
       - ./db_data:/var/lib/postgresql/data
     ports:
